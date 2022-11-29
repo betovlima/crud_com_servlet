@@ -92,7 +92,7 @@
                     <td><%=s.getMarca()%></td>
                     <td><%=s.getLugares()%></td>
                     <td><%=s.getValorAluguelFormatado()%></td>
-                    <td><a href="listarVeiculos" >Apagar</a></td>
+                    <td><a href="excluirVeiculo?id=<%=s.getId()%>">Apagar</a></td>
                 </tr>
                 <%}%>
         </table>

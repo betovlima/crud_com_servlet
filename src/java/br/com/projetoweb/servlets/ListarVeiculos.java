@@ -31,39 +31,16 @@ import javax.servlet.http.HttpServletResponse;
  * @author roberto.lima
  */
 @WebServlet("/listarVeiculos")
-public class ListarVeiculos extends HttpServlet implements Servlet {
+public class ListarVeiculos extends HttpServlet {
 
     public List<Veiculo> veiculos = new ArrayList<Veiculo>();
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
-        try ( Connection con = DatabaseConnection.initializeDatabase();  Statement st = con.createStatement();  ResultSet rs = st.executeQuery("SELECT * FROM veiculo");) {
-            veiculos.clear();
-            while (rs.next()) {
-                Veiculo veiculo = new Veiculo();
-                veiculo.setId(rs.getLong("veiculoID"));
-                veiculo.setPlaca(rs.getString("placa"));
-                veiculo.setModelo(rs.getString("modelo"));
-                veiculo.setMarca(rs.getString("marca"));
-                veiculo.setLugares(rs.getInt("lugares"));
-                Double valorAluguel = rs.getDouble("valorAluguel");
-                veiculo.setValorAluguel(rs.getDouble("valorAluguel"));
-                String valorAluguelFormatado = NumberFormat.getCurrencyInstance().format(valorAluguel);
-                veiculo.setValorAluguelFormatado(valorAluguelFormatado);
-                veiculos.add(veiculo);
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(ListarVeiculos.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    @Override
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-          response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        listarVeiculos();
         request.setAttribute("veiculos", veiculos);
         RequestDispatcher rd
                 = request.getRequestDispatcher("ListaDeVeiculos.jsp");
@@ -83,5 +60,27 @@ public class ListarVeiculos extends HttpServlet implements Servlet {
         out.println("</body>");
         out.println("</html>");
 
+    }
+
+    private void listarVeiculos() {
+        try ( Connection con = DatabaseConnection.initializeDatabase();  Statement st = con.createStatement();  ResultSet rs = st.executeQuery("SELECT * FROM veiculo");) {
+            veiculos.clear();
+            while (rs.next()) {
+                Veiculo veiculo = new Veiculo();
+                veiculo.setId(rs.getLong("veiculoID"));
+                veiculo.setPlaca(rs.getString("placa"));
+                veiculo.setModelo(rs.getString("modelo"));
+                veiculo.setMarca(rs.getString("marca"));
+                veiculo.setLugares(rs.getInt("lugares"));
+                Double valorAluguel = rs.getDouble("valorAluguel");
+                veiculo.setValorAluguel(rs.getDouble("valorAluguel"));
+                String valorAluguelFormatado = NumberFormat.getCurrencyInstance().format(valorAluguel);
+                veiculo.setValorAluguelFormatado(valorAluguelFormatado);
+                veiculos.add(veiculo);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ListarVeiculos.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
