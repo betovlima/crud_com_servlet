@@ -50,8 +50,9 @@ public class ExcluirVeiculo extends HttpServlet {
             
         } catch (SQLException ex) {
             Logger.getLogger(ListarVeiculos.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-         RequestDispatcher rd
+        }
+
+        RequestDispatcher rd
                 = request.getRequestDispatcher("listarVeiculos");
         rd.forward(request, response);
     }

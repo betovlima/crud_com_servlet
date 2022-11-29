@@ -64,39 +64,54 @@
             background-color: #e7e7e7;
             color: black;
         }
+
+        .button {
+            font: bold 11px Arial;
+            text-decoration: none;
+            background-color: #e7e7e7;
+            color: #333333;
+            padding: 2px 6px 2px 6px;
+            border-top: 1px solid #CCCCCC;
+            border-right: 1px solid #333333;
+            border-bottom: 1px solid #333333;
+            border-left: 1px solid #CCCCCC;
+        }
     </style>
     <body>
         <h1>Listar Veículos</h1>
+        <form name="FrmListaVeiculo" method="post" action="inserirVeiculo" onSubmit="return validar_form()">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">PLACA</th>
+                        <th scope="col">MODELO</th>
+                        <th scope="col">MARCA</th>
+                        <th scope="col">LUGARES</th>
+                        <th scope="col">VALOR ALUGUEL</th>
+                        <th scope="col">AÇÃO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%ArrayList<Veiculo> lista
+                                = (ArrayList<Veiculo>) request.getAttribute("veiculos");
+                        for (Veiculo veiculo : lista) {%>
+                    <tr>
+                        <td><%=veiculo.getId()%></td>
+                        <td><%=veiculo.getPlaca()%></td>
+                        <td><%=veiculo.getModelo()%></td>
+                        <td><%=veiculo.getMarca()%></td>
+                        <td><%=veiculo.getLugares()%></td>
+                        <td><%=veiculo.getValorAluguelFormatado()%></td>
+                        <td>
+                            <a href="excluirVeiculo?id=<%=veiculo.getId()%>" class="button">Apagar</a>
+                            <a href="alterarVeiculo?id=<%=veiculo.getId()%>" class="button">Alterar</a>
+                        </td>
+                    </tr>
+                    <%}%>
 
-
-        <table class="styled-table">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">PLACA</th>
-                    <th scope="col">MODELO</th>
-                    <th scope="col">MARCA</th>
-                    <th scope="col">LUGARES</th>
-                    <th scope="col">VALOR ALUGUEL</th>
-                    <th scope="col">AÇÃO</th>
-                </tr>
-            </thead>
-            <tbody>
-                <%ArrayList<Veiculo> std
-                            = (ArrayList<Veiculo>) request.getAttribute("veiculos");
-                    for (Veiculo s : std) {%>
-                <tr>
-                    <td><%=s.getId()%></td>
-                    <td><%=s.getPlaca()%></td>
-                    <td><%=s.getModelo()%></td>
-                    <td><%=s.getMarca()%></td>
-                    <td><%=s.getLugares()%></td>
-                    <td><%=s.getValorAluguelFormatado()%></td>
-                    <td><a href="excluirVeiculo?id=<%=s.getId()%>">Apagar</a></td>
-                </tr>
-                <%}%>
-        </table>
-    </tbody>
-</table>
-</body> 
+                </tbody>
+            </table>
+        </form>
+    </body> 
 </html>
