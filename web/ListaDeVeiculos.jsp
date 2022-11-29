@@ -14,6 +14,15 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Listagem de Veículos</title>
     </head>
+    <script>
+        function submitFullName(veiculoID, destination)
+        {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", destination, true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send("veiculoID=" + veiculoID);
+        }
+    </script>
     <style>
         * {
             font-family: Arial, Helvetica, sans-serif;
@@ -79,39 +88,39 @@
     </style>
     <body>
         <h1>Listar Veículos</h1>
-        <form name="FrmListaVeiculo" method="post" action="inserirVeiculo" onSubmit="return validar_form()">
-            <table class="styled-table">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">PLACA</th>
-                        <th scope="col">MODELO</th>
-                        <th scope="col">MARCA</th>
-                        <th scope="col">LUGARES</th>
-                        <th scope="col">VALOR ALUGUEL</th>
-                        <th scope="col">AÇÃO</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <%ArrayList<Veiculo> lista
-                                = (ArrayList<Veiculo>) request.getAttribute("veiculos");
-                        for (Veiculo veiculo : lista) {%>
-                    <tr>
-                        <td><%=veiculo.getId()%></td>
-                        <td><%=veiculo.getPlaca()%></td>
-                        <td><%=veiculo.getModelo()%></td>
-                        <td><%=veiculo.getMarca()%></td>
-                        <td><%=veiculo.getLugares()%></td>
-                        <td><%=veiculo.getValorAluguelFormatado()%></td>
-                        <td>
-                            <a href="excluirVeiculo?id=<%=veiculo.getId()%>" class="button">Apagar</a>
-                            <a href="alterarVeiculo?id=<%=veiculo.getId()%>" class="button">Alterar</a>
-                        </td>
-                    </tr>
-                    <%}%>
 
-                </tbody>
-            </table>
-        </form>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">PLACA</th>
+                    <th scope="col">MODELO</th>
+                    <th scope="col">MARCA</th>
+                    <th scope="col">LUGARES</th>
+                    <th scope="col">VALOR ALUGUEL</th>
+                    <th scope="col">AÇÃO</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%ArrayList<Veiculo> lista
+                            = (ArrayList<Veiculo>) request.getAttribute("veiculos");
+                    for (Veiculo veiculo : lista) {%>
+                <tr>
+                    <td><%=veiculo.getId()%></td>
+                    <td><%=veiculo.getPlaca()%></td>
+                    <td><%=veiculo.getModelo()%></td>
+                    <td><%=veiculo.getMarca()%></td>
+                    <td><%=veiculo.getLugares()%></td>
+                    <td><%=veiculo.getValorAluguelFormatado()%></td>
+                    <td>
+                        <a href="#" class="button" onclick="submitFullName(<%=veiculo.getId()%>, 'excluirVeiculo')">Apagar</a>
+                        <a href="#" class="button" onclick="submitFullName(<%=veiculo.getId()%>, 'alterarVeiculo')">Alterar</a>
+                    </td>
+                </tr>
+                <%}%>
+
+            </tbody>
+        </table>
+
     </body> 
 </html>
