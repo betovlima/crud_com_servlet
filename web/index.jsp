@@ -36,7 +36,7 @@
     </style>
     <body>
 
-        <h1>Calculadora - Multiplicar</h1>
+        <h1>Sistema de Cadastro de Veículos</h1>
         <div class="center">
             <a href="CadastroVeiculo.jsp" >Cadastro veiculos</a> <p>
                 <a href="listarVeiculos" >Lista de veiculos</a>

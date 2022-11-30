@@ -51,6 +51,7 @@ public class InserirVeiculo extends HttpServlet {
             st.executeUpdate();
            
             response.sendRedirect("listarVeiculos");
+            
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NumberFormatException e) {

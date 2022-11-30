@@ -101,18 +101,18 @@
     </style>
     <body>
         <h1>Dados de Veículo</h1>
-        <form name="FrmDadosVeiculo" method="post" action="inserirVeiculo" onSubmit="return validar_form()">
+        <form name="FrmDadosVeiculo" method="post" action="alterarVeiculo" onSubmit="return validar_form()">
             <div class="box center">
                 <div> <label for="placa">Placa:</label></div> 
-                <div> <input id="placa" type=text name="placa"> </div>
+                <div> <input id="placa" type=text name="placa" value="<%=request.getAttribute("placa")%>"> </div>
                 <div> <label for="modelo">Modelo:</label> </div> 
-                <div> <input id="modelo" type=text name="modelo"> </div>
+                <div> <input id="modelo" type=text name="modelo" value="<%=request.getAttribute("modelo")%>"> </div>
                 <div> <label for="marca">Marca:</label> </div> 
-                <div> <input id="marca" type=text name="marca"> </div>
+                <div> <input id="marca" type=text name="marca" value="<%=request.getAttribute("marca")%>"> </div>
                 <div> <label for="lugares">Lugares:</label></div> 
-                <div> <input id="lugares" type=text name="lugares"> </div>
+                <div> <input id="lugares" type=text name="lugares" value="<%=request.getAttribute("lugares")%>"> </div>
                 <div> <label for="valorAluguel">Valor Aluguel:</label> </div> 
-                <div> <input id="valorAluguel" type=text name="valorAluguel"> </div>
+                <div> <input id="valorAluguel" type=text name="valorAluguel" value="<%=request.getAttribute("valorAluguelFormatado")%>"> </div>
             </div>
             <div class="box footer">
                 <div>

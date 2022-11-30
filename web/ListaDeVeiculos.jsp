@@ -2,8 +2,7 @@
     Document   : CadastroVeiculo
     Created on : 28 de nov. de 2022, 11:33:10
     Author     : roberto.lima
---%>
-
+--%> 
 <%@page import="java.util.ArrayList"%>
 <%@page import="br.com.projetoweb.model.Veiculo"%>
 <%@page import="java.util.List"%>
@@ -15,12 +14,43 @@
         <title>Listagem de Veículos</title>
     </head>
     <script>
-        function submitFullName(veiculoID, destination)
+        
+        function postVeiculoId(veiculoID, destination)
         {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', destination , true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send("veiculoID=" + veiculoID);
+        }
+
+        function getVeiculoId(veiculoID, destination)
+        {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', destination + "?veiculoID=" + veiculoID, true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(null);
+        }
+
+        function submitAlterarVeiculo(destination)
+        {
+            var veiculoID = document.getElementById("veiculoID").value;
+            var placa = document.getElementById("placa").value;
+            var modelo = document.getElementById("modelo").value;
+            var marca = document.getElementById("marca").value;
+            var lugares = document.getElementById("lugares").value;
+            var valorAluguel = document.getElementById("valorAluguel").value;
+
             var xhr = new XMLHttpRequest();
             xhr.open("POST", destination, true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send("veiculoID=" + veiculoID);
+            xhr.send(
+                    "veiculoID=" + veiculoID +
+                    "placa=" + placa +
+                    "modelo=" + modelo +
+                    "marca=" + marca +
+                    "lugares=" + lugares +
+                    "valorAluguel=" + valorAluguel
+                    );
         }
     </script>
     <style>
@@ -87,6 +117,7 @@
         }
     </style>
     <body>
+        
         <h1>Listar Veículos</h1>
 
         <table class="styled-table">
@@ -106,15 +137,33 @@
                             = (ArrayList<Veiculo>) request.getAttribute("veiculos");
                     for (Veiculo veiculo : lista) {%>
                 <tr>
-                    <td><%=veiculo.getId()%></td>
-                    <td><%=veiculo.getPlaca()%></td>
-                    <td><%=veiculo.getModelo()%></td>
-                    <td><%=veiculo.getMarca()%></td>
-                    <td><%=veiculo.getLugares()%></td>
-                    <td><%=veiculo.getValorAluguelFormatado()%></td>
                     <td>
-                        <a href="#" class="button" onclick="submitFullName(<%=veiculo.getId()%>, 'excluirVeiculo')">Apagar</a>
-                        <a href="#" class="button" onclick="submitFullName(<%=veiculo.getId()%>, 'alterarVeiculo')">Alterar</a>
+                        <%=veiculo.getId()%>
+                        <input type="hidden" name="veiculoID" value="<%=veiculo.getId()%>"/>
+                    </td>
+                    <td>
+                        <%=veiculo.getPlaca()%>
+                        <input type="hidden" name="placa" value="<%=veiculo.getPlaca()%>"/>
+                    </td>
+                    <td>
+                        <%=veiculo.getModelo()%>
+                        <input type="hidden" name="modelo" value="<%=veiculo.getModelo()%>"/>
+                    </td>
+                    <td>
+                        <%=veiculo.getMarca()%>
+                        <input type="hidden" name="marca" value="<%=veiculo.getMarca()%>"/>
+                    </td>
+                    <td>
+                        <%=veiculo.getLugares()%>
+                        <input type="hidden" name="lugares" value="<%=veiculo.getLugares()%>"/>
+                    </td>
+                    <td>
+                        <%=veiculo.getValorAluguelFormatado()%>
+                        <input type="hidden" name="valorAluguel" value="<%=veiculo.getValorAluguelFormatado()%>"/>
+                    </td>
+                    <td>
+                        <a href="#" class="button" onclick="postVeiculoId(<%=veiculo.getId()%>, 'excluirVeiculo')">Apagar</a>
+                        <a href="#" class="button" onclick="getVeiculoId(<%=veiculo.getId()%>, 'alterarVeiculo')">Alterar</a>
                     </td>
                 </tr>
                 <%}%>

@@ -18,8 +18,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.Servlet;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author roberto.lima
  */
-@WebServlet("/listarVeiculos")
+@WebServlet(name = "listarVeiculos", urlPatterns = "/listarVeiculos")
 public class ListarVeiculos extends HttpServlet {
 
     public List<Veiculo> veiculos = new ArrayList<Veiculo>();
