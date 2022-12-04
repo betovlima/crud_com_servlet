@@ -7,7 +7,6 @@ package br.com.projetoweb.servlets;
 import br.com.projetoweb.config.DatabaseConnection;
 import br.com.projetoweb.model.Veiculo;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,28 +36,15 @@ public class ListarVeiculos extends HttpServlet {
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
+        
         listarVeiculos();
         request.setAttribute("veiculos", veiculos);
         RequestDispatcher rd
-                = request.getRequestDispatcher("ListaDeVeiculos.jsp");
+                = request.getRequestDispatcher("/ListaDeVeiculos.jsp");
         rd.forward(request, response);
-        out.println("</body>");
-        out.println("</html>");
+       
     }
-
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        request.setAttribute("veiculos", veiculos);
-        RequestDispatcher rd
-                = request.getRequestDispatcher("ListaDeVeiculos.jsp");
-        rd.forward(request, response);
-        out.println("</body>");
-        out.println("</html>");
-
-    }
+  
 
     private void listarVeiculos() {
         try ( Connection con = DatabaseConnection.initializeDatabase();  Statement st = con.createStatement();  ResultSet rs = st.executeQuery("SELECT * FROM veiculo");) {

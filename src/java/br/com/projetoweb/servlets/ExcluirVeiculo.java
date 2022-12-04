@@ -30,13 +30,17 @@ public class ExcluirVeiculo extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        id = request.getParameter("veiculoID"); 
+        id = request.getParameter("veiculoID");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        response.setIntHeader("Refresh", 5);
+
+        // Set response content type
+        response.setContentType("text/html");
         id = (String) request.getParameter("veiculoID");
         try ( Connection con = DatabaseConnection.initializeDatabase();  Statement st = con.createStatement();) {
             String sql = "DELETE FROM veiculo WHERE veiculoID = " + id;
@@ -45,9 +49,9 @@ public class ExcluirVeiculo extends HttpServlet {
             Logger.getLogger(ListarVeiculos.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        RequestDispatcher rd
-                = request.getRequestDispatcher("listarVeiculos");
-        rd.forward(request, response);
+        String redirect
+                = response.encodeRedirectURL(request.getContextPath() + "/ListaVeiculos.jsp");
+        response.sendRedirect(redirect);
 
     }
 }

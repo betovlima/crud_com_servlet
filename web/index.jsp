@@ -13,6 +13,7 @@
             text-align: center;
             text-decoration: none;
             display: inline-block;
+            width: 200px;
         }
 
         a:hover, a:active {
@@ -28,7 +29,7 @@
         .center {
             position: absolute;
             top: 35%;
-            left: 50%;
+            left: 45%;
             margin-top: -50px;
             margin-left: -50px;
 
@@ -38,7 +39,7 @@
 
         <h1>Sistema de Cadastro de Veículos</h1>
         <div class="center">
-            <a href="CadastroVeiculo.jsp" >Cadastro veiculos</a> <p>
+            <a href="CadastroVeiculo.jsp" >Cadastro de veiculos</a> <p> 
                 <a href="listarVeiculos" >Lista de veiculos</a>
         </div>
     </body>

@@ -5,9 +5,7 @@
 package br.com.projetoweb.servlets;
 
 import br.com.projetoweb.config.DatabaseConnection;
-import br.com.projetoweb.model.Veiculo;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author roberto.lima
  */
-@WebServlet("/alterarVeiculo")
+@WebServlet(name = "alterarVeiculo", urlPatterns = "/alterarVeiculo")
 public class AlterarVeiculo extends HttpServlet {
 
     private Long id;
@@ -44,9 +42,14 @@ public class AlterarVeiculo extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
 
         String veiculoID = request.getParameter("veiculoID");
         this.id = Long.valueOf(veiculoID);
@@ -57,19 +60,10 @@ public class AlterarVeiculo extends HttpServlet {
         request.setAttribute("marca", this.marca);
         request.setAttribute("lugares", this.lugares);
         request.setAttribute("valorAluguelFormatado", this.valorAluguelFormatado);
-        
-       RequestDispatcher requestDispatcher = request
-                    .getRequestDispatcher("/AlterarVeiculos.jsp");
-            requestDispatcher.forward(request, response); 
+        RequestDispatcher rd
+                = request.getRequestDispatcher("/AlterarVeiculos.jsp");
+        rd.forward(request, response);
 
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-
-        response.sendRedirect("listarVeiculos");
     }
 
     private void updateRecord() {

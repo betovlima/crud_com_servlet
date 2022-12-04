@@ -12,112 +12,113 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Listagem de Veículos</title>
+
+        <script>
+
+            function getContextPath() {
+                return "${pageContext.request.contextPath}";
+            }
+
+            function callGETAlterarVeiculo(veiculoID) {
+                document.getElementById("helloWorldForm").action = getContextPath() + "/alterarVeiculo?veiculoID=" + veiculoID;
+                document.getElementById("helloWorldForm").method = 'GET';
+                document.getElementById("helloWorldForm").submit();
+            }
+
+            function excluirVeiculoById(veiculoID, destination)
+            {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', getContextPath() + destination, true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.send("veiculoID=" + veiculoID);
+                document.location.reload(true);
+            }
+
+            function alterarVeiculoById(veiculoID, destination) {
+                window.onload = function () {
+                    var request = new XMLHttpRequest();
+
+                    request.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 200) {
+                            console.log(this.responseText);
+                        }
+                    };
+
+                    request.open('GET', getContextPath() + destination + "?veiculoID=" + veiculoID);
+                    request.send();
+                }
+
+            }
+
+          
+        </script>
+
+        <style>
+            * {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            .styled-table {
+                border-collapse: collapse;
+                margin: 25px 0;
+                font-size: 0.9em;
+                font-family: sans-serif;
+                min-width: 400px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+                width:100%;
+                table-layout: fixed;
+                overflow-wrap: break-word;
+            }
+
+            .styled-table thead tr {
+                background-color: #009879;
+                color: #ffffff;
+                text-align: left;
+            }
+
+            .styled-table th,
+            .styled-table td {
+                padding: 12px 15px;
+            }
+
+            .styled-table tbody tr {
+                border-bottom: 1px solid #dddddd;
+            }
+
+            .styled-table tbody tr:nth-of-type(even) {
+                background-color: #f3f3f3;
+            }
+
+            .styled-table tbody tr:last-of-type {
+                border-bottom: 2px solid #009879;
+            }
+
+            .styled-table tbody tr.active-row {
+                font-weight: bold;
+                color: #009879;
+            }
+
+            h1 {
+                text-align:center;
+                background-color: #e7e7e7;
+                color: black;
+            }
+
+            .button {
+                font: bold 11px Arial;
+                text-decoration: none;
+                background-color: #e7e7e7;
+                color: #333333;
+                padding: 2px 6px 2px 6px;
+                border-top: 1px solid #CCCCCC;
+                border-right: 1px solid #333333;
+                border-bottom: 1px solid #333333;
+                border-left: 1px solid #CCCCCC;
+            }
+        </style>
     </head>
-    <script>
-        
-        function postVeiculoId(veiculoID, destination)
-        {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', destination , true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send("veiculoID=" + veiculoID);
-        }
-
-        function getVeiculoId(veiculoID, destination)
-        {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', destination + "?veiculoID=" + veiculoID, true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(null);
-        }
-
-        function submitAlterarVeiculo(destination)
-        {
-            var veiculoID = document.getElementById("veiculoID").value;
-            var placa = document.getElementById("placa").value;
-            var modelo = document.getElementById("modelo").value;
-            var marca = document.getElementById("marca").value;
-            var lugares = document.getElementById("lugares").value;
-            var valorAluguel = document.getElementById("valorAluguel").value;
-
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", destination, true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(
-                    "veiculoID=" + veiculoID +
-                    "placa=" + placa +
-                    "modelo=" + modelo +
-                    "marca=" + marca +
-                    "lugares=" + lugares +
-                    "valorAluguel=" + valorAluguel
-                    );
-        }
-    </script>
-    <style>
-        * {
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        .styled-table {
-            border-collapse: collapse;
-            margin: 25px 0;
-            font-size: 0.9em;
-            font-family: sans-serif;
-            min-width: 400px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-            width:100%;
-            table-layout: fixed;
-            overflow-wrap: break-word;
-        }
-
-        .styled-table thead tr {
-            background-color: #009879;
-            color: #ffffff;
-            text-align: left;
-        }
-
-        .styled-table th,
-        .styled-table td {
-            padding: 12px 15px;
-        }
-
-        .styled-table tbody tr {
-            border-bottom: 1px solid #dddddd;
-        }
-
-        .styled-table tbody tr:nth-of-type(even) {
-            background-color: #f3f3f3;
-        }
-
-        .styled-table tbody tr:last-of-type {
-            border-bottom: 2px solid #009879;
-        }
-
-        .styled-table tbody tr.active-row {
-            font-weight: bold;
-            color: #009879;
-        }
-
-        h1 {
-            text-align:center;
-            background-color: #e7e7e7;
-            color: black;
-        }
-
-        .button {
-            font: bold 11px Arial;
-            text-decoration: none;
-            background-color: #e7e7e7;
-            color: #333333;
-            padding: 2px 6px 2px 6px;
-            border-top: 1px solid #CCCCCC;
-            border-right: 1px solid #333333;
-            border-bottom: 1px solid #333333;
-            border-left: 1px solid #CCCCCC;
-        }
-    </style>
     <body>
-        
+
         <h1>Listar Veículos</h1>
 
         <table class="styled-table">
@@ -162,8 +163,9 @@
                         <input type="hidden" name="valorAluguel" value="<%=veiculo.getValorAluguelFormatado()%>"/>
                     </td>
                     <td>
-                        <a href="#" class="button" onclick="postVeiculoId(<%=veiculo.getId()%>, 'excluirVeiculo')">Apagar</a>
-                        <a href="#" class="button" onclick="getVeiculoId(<%=veiculo.getId()%>, 'alterarVeiculo')">Alterar</a>
+                        <a href="#" class="button" onclick="excluirVeiculoById(<%=veiculo.getId()%>, '/excluirVeiculo')">Apagar</a>
+                       
+                        <a href='alterarVeiculo?veiculoID=<%=veiculo.getId()%>&marca=3333'>Alterar</a>
                     </td>
                 </tr>
                 <%}%>
