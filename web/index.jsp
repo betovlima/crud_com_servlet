@@ -7,7 +7,7 @@
     </head>
     <style>
         a:link, a:visited {
-            background-color: #f44336;
+            background-color: #009879;
             color: white;
             padding: 14px 25px;
             text-align: center;

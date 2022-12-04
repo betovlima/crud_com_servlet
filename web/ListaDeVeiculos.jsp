@@ -1,5 +1,5 @@
 <%-- 
-    Document   : CadastroVeiculo
+    Document   : ListaDeVeiculo
     Created on : 28 de nov. de 2022, 11:33:10
     Author     : roberto.lima
 --%> 
@@ -165,7 +165,7 @@
                     <td>
                         <a href="#" class="button" onclick="excluirVeiculoById(<%=veiculo.getId()%>, '/excluirVeiculo')">Apagar</a>
                        
-                        <a href="alterarVeiculo?veiculoID=<%=veiculo.getId()%>&acao=carregar">Alterar</a>
+                        <a href="alterarVeiculo?veiculoID=<%=veiculo.getId()%>&acao=carregar" class="button">Alterar</a>
                     </td>
                 </tr>
                 <%}%>

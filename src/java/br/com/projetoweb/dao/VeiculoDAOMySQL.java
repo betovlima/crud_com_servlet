@@ -66,7 +66,6 @@ public class VeiculoDAOMySQL implements VeiculoDAO {
         Connection con = null;
         PreparedStatement st = null;
         try {
-
             con = DatabaseConnection.initializeDatabase();
             String update = "update "
                     + "veiculo set placa=?"
@@ -84,9 +83,7 @@ public class VeiculoDAOMySQL implements VeiculoDAO {
             st.setDouble(5, veiculo.getValorAluguel());
             st.setLong(6, veiculo.getId());
             st.executeUpdate();
-
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+        
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

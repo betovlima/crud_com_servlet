@@ -1,26 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package br.com.projetoweb.servlets;
 
-import br.com.projetoweb.config.DatabaseConnection;
 import br.com.projetoweb.dao.VeiculoDAO;
 import br.com.projetoweb.dao.VeiculoDAOMySQL;
 import br.com.projetoweb.model.Veiculo;
-import br.com.projetoweb.utils.Utils;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
