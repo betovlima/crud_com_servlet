@@ -5,6 +5,7 @@
 package br.com.projetoweb.servlets;
 
 import br.com.projetoweb.config.DatabaseConnection;
+import br.com.projetoweb.utils.Utils;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -106,7 +107,7 @@ public class AlterarVeiculo extends HttpServlet {
                 this.marca = rs.getString("marca");
                 this.lugares = rs.getInt("lugares");
                 this.valorAluguel = rs.getDouble("valorAluguel");
-                this.valorAluguelFormatado = NumberFormat.getCurrencyInstance().format(rs.getDouble("valorAluguel"));
+                this.valorAluguelFormatado = Utils.getCurrencyValue(rs.getDouble("valorAluguel"));
             }
             System.out.println("br.com.projetoweb.servlets.AlterarVeiculo.getVeiculo()");
         } catch (SQLException ex) {

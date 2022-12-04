@@ -11,9 +11,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -36,15 +38,14 @@ public class ListarVeiculos extends HttpServlet {
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         listarVeiculos();
         request.setAttribute("veiculos", veiculos);
         RequestDispatcher rd
                 = request.getRequestDispatcher("/ListaDeVeiculos.jsp");
         rd.forward(request, response);
-       
+
     }
-  
 
     private void listarVeiculos() {
         try ( Connection con = DatabaseConnection.initializeDatabase();  Statement st = con.createStatement();  ResultSet rs = st.executeQuery("SELECT * FROM veiculo");) {
@@ -58,7 +59,7 @@ public class ListarVeiculos extends HttpServlet {
                 veiculo.setLugares(rs.getInt("lugares"));
                 Double valorAluguel = rs.getDouble("valorAluguel");
                 veiculo.setValorAluguel(rs.getDouble("valorAluguel"));
-                String valorAluguelFormatado = NumberFormat.getCurrencyInstance().format(valorAluguel);
+                String valorAluguelFormatado = getCurrncyValue(valorAluguel);
                 veiculo.setValorAluguelFormatado(valorAluguelFormatado);
                 veiculos.add(veiculo);
             }
@@ -66,5 +67,11 @@ public class ListarVeiculos extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(ListarVeiculos.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private String getCurrncyValue(Double valorAluguel) {
+        Locale localeBR = new Locale("pt", "BR");
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(localeBR);
+        return numberFormat.format(valorAluguel);
     }
 }
