@@ -29,11 +29,11 @@ public class InserirVeiculo extends HttpServlet {
 
     private void insert(HttpServletRequest request) {
         Veiculo veiculo = new Veiculo();
-        veiculo.setPlaca(String.valueOf(request.getAttribute("placa")));
-        veiculo.setModelo(String.valueOf(request.getAttribute("modelo")));
-        veiculo.setMarca(String.valueOf(request.getAttribute("marca")));
-        veiculo.setLugares(Integer.valueOf(String.valueOf(request.getAttribute("lugares"))));
-        veiculo.setValorAluguel(Double.valueOf(String.valueOf(request.getAttribute("valorAluguel"))));
+        veiculo.setPlaca(request.getParameter("placa"));
+        veiculo.setModelo(String.valueOf(request.getParameter("modelo")));
+        veiculo.setMarca(String.valueOf(request.getParameter("marca")));
+        veiculo.setLugares(Integer.valueOf(String.valueOf(request.getParameter("lugares"))));
+        veiculo.setValorAluguel(Double.valueOf(String.valueOf(request.getParameter("valorAluguel"))));
         this.dao.insert(veiculo);
     }
 }

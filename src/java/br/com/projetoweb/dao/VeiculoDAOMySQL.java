@@ -68,14 +68,21 @@ public class VeiculoDAOMySQL implements VeiculoDAO {
         try {
 
             con = DatabaseConnection.initializeDatabase();
-            st = con.prepareStatement("update "
-                    + "veiculo set placa=" + veiculo.getMarca()
-                    + ",modelo=" + veiculo.getModelo()
-                    + ",marca=" + veiculo.getMarca()
-                    + ",lugares=" + veiculo.getLugares()
-                    + ",valorAluguel=" + veiculo.getValorAluguel()
-                    + " Where veiculoID=" + veiculo.getId());
+            String update = "update "
+                    + "veiculo set placa=?"
+                    + ",modelo=?"
+                    + ",marca=?"
+                    + ",lugares=?"
+                    + ",valorAluguel=?"
+                    + " Where veiculoID=?";
 
+            st = con.prepareStatement(update);
+            st.setString(1, veiculo.getPlaca());
+            st.setString(2, veiculo.getModelo());
+            st.setString(3, veiculo.getMarca());
+            st.setInt(4, veiculo.getLugares());
+            st.setDouble(5, veiculo.getValorAluguel());
+            st.setLong(6, veiculo.getId());
             st.executeUpdate();
 
         } catch (NumberFormatException e) {

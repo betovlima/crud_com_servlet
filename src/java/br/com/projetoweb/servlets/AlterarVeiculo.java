@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package br.com.projetoweb.servlets;
 
 import br.com.projetoweb.dao.VeiculoDAO;
@@ -46,19 +42,32 @@ public class AlterarVeiculo extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        String acao = request.getParameter("acao");
         String veiculoID = request.getParameter("veiculoID");
         this.id = Long.valueOf(veiculoID);
-        getVeiculo(this.id);
-        request.setAttribute("veiculoID", this.veiculo.getId());
-        request.setAttribute("placa", this.veiculo.getPlaca());
-        request.setAttribute("modelo", this.veiculo.getModelo());
-        request.setAttribute("marca", this.veiculo.getMarca());
-        request.setAttribute("lugares", this.veiculo.getLugares());
-        request.setAttribute("valorAluguelFormatado", Utils.getCurrencyValue(this.veiculo.getValorAluguel()));
-        RequestDispatcher rd
-                = request.getRequestDispatcher("/AlterarVeiculos.jsp");
-        rd.forward(request, response);
+        if (acao.equals("carregar")) {
+            getVeiculo(this.id);
+            request.setAttribute("veiculoID", this.veiculo.getId());
+            request.setAttribute("placa", this.veiculo.getPlaca());
+            request.setAttribute("modelo", this.veiculo.getModelo());
+            request.setAttribute("marca", this.veiculo.getMarca());
+            request.setAttribute("lugares", this.veiculo.getLugares());
+            request.setAttribute("valorAluguelFormatado", Utils.getCurrencyValue(this.veiculo.getValorAluguel()));
+            RequestDispatcher rd
+                    = request.getRequestDispatcher("/AlterarVeiculos.jsp");
+            rd.forward(request, response);
+
+        } else if (acao.equals("alterar")) {
+            
+            this.placa = request.getParameter("placa");
+            this.modelo = request.getParameter("modelo");
+            this.marca = request.getParameter("marca");
+            this.lugares = Integer.valueOf(request.getParameter("lugares"));
+            this.valorAluguel = Double.valueOf(request.getParameter("valorAluguel"));
+            updateRecord();
+            response.sendRedirect("listarVeiculos");
+
+        }
 
     }
 
@@ -73,7 +82,7 @@ public class AlterarVeiculo extends HttpServlet {
     }
 
     private void getVeiculo(Long id) {
-       this.veiculo =  this.dao.getVeiculoById(id);
+        this.veiculo = this.dao.getVeiculoById(id);
     }
 
 }

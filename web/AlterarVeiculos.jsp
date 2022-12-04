@@ -103,8 +103,9 @@
         <h1>Alterar Dados de Veículo</h1>
         <form name="FrmDadosVeiculo" method="post" action="alterarVeiculo" onSubmit="return validar_form()">
             <div class="box center">
-                <div> <label for="placa">Placa:</label></div> 
-                <input id="id" type="hidden" name="placa" value="<%=request.getAttribute("veiculoID")%>"> 
+                 <input id="acao" type="hidden" name="acao" value="alterar"> 
+                <input id="veiculoID" type="hidden" name="veiculoID" value="<%=request.getAttribute("veiculoID")%>"> 
+                 <div> <label for="placa">Placa:</label></div> 
                 <div> <input id="placa" type="text" name="placa" value="<%=request.getAttribute("placa")%>"> </div>
                 <div> <label for="modelo">Modelo:</label> </div> 
                 <div> <input id="modelo" type="text" name="modelo" value="<%=request.getAttribute("modelo")%>"> </div>
@@ -118,7 +119,7 @@
             <div class="box footer">
                 <div>
                     <input type="reset" value="Limpar" value="Limpar"> 
-                    <input type="submit" name="Cadastrar" value="Cadastrar"> 
+                    <input type="submit" name="Alterar" value="Alterar"> 
                 </div>
             </div>
         </form>

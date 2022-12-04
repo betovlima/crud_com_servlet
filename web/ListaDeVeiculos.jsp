@@ -165,7 +165,7 @@
                     <td>
                         <a href="#" class="button" onclick="excluirVeiculoById(<%=veiculo.getId()%>, '/excluirVeiculo')">Apagar</a>
                        
-                        <a href='alterarVeiculo?veiculoID=<%=veiculo.getId()%>&marca=3333'>Alterar</a>
+                        <a href="alterarVeiculo?veiculoID=<%=veiculo.getId()%>&acao=carregar">Alterar</a>
                     </td>
                 </tr>
                 <%}%>
