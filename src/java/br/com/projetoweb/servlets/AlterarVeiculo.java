@@ -4,17 +4,11 @@
  */
 package br.com.projetoweb.servlets;
 
-import br.com.projetoweb.config.DatabaseConnection;
+import br.com.projetoweb.dao.VeiculoDAO;
+import br.com.projetoweb.dao.VeiculoDAOMySQL;
+import br.com.projetoweb.model.Veiculo;
 import br.com.projetoweb.utils.Utils;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.NumberFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,13 +23,14 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "alterarVeiculo", urlPatterns = "/alterarVeiculo")
 public class AlterarVeiculo extends HttpServlet {
 
+    private VeiculoDAO dao = new VeiculoDAOMySQL();
+    public Veiculo veiculo = new Veiculo();
     private Long id;
     private String placa;
     private String modelo;
     private String marca;
     private Integer lugares;
     private Double valorAluguel;
-    private String valorAluguelFormatado;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -55,12 +50,12 @@ public class AlterarVeiculo extends HttpServlet {
         String veiculoID = request.getParameter("veiculoID");
         this.id = Long.valueOf(veiculoID);
         getVeiculo(this.id);
-        request.setAttribute("veiculoID", this.id);
-        request.setAttribute("placa", this.placa);
-        request.setAttribute("modelo", this.modelo);
-        request.setAttribute("marca", this.marca);
-        request.setAttribute("lugares", this.lugares);
-        request.setAttribute("valorAluguelFormatado", this.valorAluguelFormatado);
+        request.setAttribute("veiculoID", this.veiculo.getId());
+        request.setAttribute("placa", this.veiculo.getPlaca());
+        request.setAttribute("modelo", this.veiculo.getModelo());
+        request.setAttribute("marca", this.veiculo.getMarca());
+        request.setAttribute("lugares", this.veiculo.getLugares());
+        request.setAttribute("valorAluguelFormatado", Utils.getCurrencyValue(this.veiculo.getValorAluguel()));
         RequestDispatcher rd
                 = request.getRequestDispatcher("/AlterarVeiculos.jsp");
         rd.forward(request, response);
@@ -68,51 +63,17 @@ public class AlterarVeiculo extends HttpServlet {
     }
 
     private void updateRecord() {
-        Connection con = null;
-        PreparedStatement st = null;
-        try {
-
-            con = DatabaseConnection.initializeDatabase();
-            st = con.prepareStatement("update "
-                    + "veiculo set placa=" + placa
-                    + ",modelo=" + modelo
-                    + ",marca=" + marca
-                    + ",lugares=" + lugares
-                    + ",valorAluguel=" + valorAluguel
-                    + " Where veiculoID=" + id);
-
-            st.executeUpdate();
-
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                con.close();
-                st.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(AlterarVeiculo.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        veiculo.setId(id);
+        veiculo.setLugares(lugares);
+        veiculo.setMarca(marca);
+        veiculo.setModelo(modelo);
+        veiculo.setPlaca(placa);
+        veiculo.setValorAluguel(valorAluguel);
+        this.dao.updateRecord(veiculo);
     }
 
     private void getVeiculo(Long id) {
-        try ( Connection con = DatabaseConnection.initializeDatabase();  Statement st = con.createStatement();  ResultSet rs = st.executeQuery("SELECT veiculoID,placa,modelo,marca,lugares,valorAluguel "
-                + "FROM veiculo WHERE veiculoID = " + id);) {
-            while (rs.next()) {
-                this.id = rs.getLong("veiculoID");
-                this.placa = rs.getString("placa");
-                this.modelo = rs.getString("modelo");
-                this.marca = rs.getString("marca");
-                this.lugares = rs.getInt("lugares");
-                this.valorAluguel = rs.getDouble("valorAluguel");
-                this.valorAluguelFormatado = Utils.getCurrencyValue(rs.getDouble("valorAluguel"));
-            }
-            System.out.println("br.com.projetoweb.servlets.AlterarVeiculo.getVeiculo()");
-        } catch (SQLException ex) {
-            Logger.getLogger(ListarVeiculos.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       this.veiculo =  this.dao.getVeiculoById(id);
     }
 
 }

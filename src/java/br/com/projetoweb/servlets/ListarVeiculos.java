@@ -5,7 +5,10 @@
 package br.com.projetoweb.servlets;
 
 import br.com.projetoweb.config.DatabaseConnection;
+import br.com.projetoweb.dao.VeiculoDAO;
+import br.com.projetoweb.dao.VeiculoDAOMySQL;
 import br.com.projetoweb.model.Veiculo;
+import br.com.projetoweb.utils.Utils;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -32,6 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "listarVeiculos", urlPatterns = "/listarVeiculos")
 public class ListarVeiculos extends HttpServlet {
 
+    private VeiculoDAO dao = new VeiculoDAOMySQL();
     public List<Veiculo> veiculos = new ArrayList<Veiculo>();
 
     @Override
@@ -48,30 +52,6 @@ public class ListarVeiculos extends HttpServlet {
     }
 
     private void listarVeiculos() {
-        try ( Connection con = DatabaseConnection.initializeDatabase();  Statement st = con.createStatement();  ResultSet rs = st.executeQuery("SELECT * FROM veiculo");) {
-            veiculos.clear();
-            while (rs.next()) {
-                Veiculo veiculo = new Veiculo();
-                veiculo.setId(rs.getLong("veiculoID"));
-                veiculo.setPlaca(rs.getString("placa"));
-                veiculo.setModelo(rs.getString("modelo"));
-                veiculo.setMarca(rs.getString("marca"));
-                veiculo.setLugares(rs.getInt("lugares"));
-                Double valorAluguel = rs.getDouble("valorAluguel");
-                veiculo.setValorAluguel(rs.getDouble("valorAluguel"));
-                String valorAluguelFormatado = getCurrncyValue(valorAluguel);
-                veiculo.setValorAluguelFormatado(valorAluguelFormatado);
-                veiculos.add(veiculo);
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(ListarVeiculos.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private String getCurrncyValue(Double valorAluguel) {
-        Locale localeBR = new Locale("pt", "BR");
-        NumberFormat numberFormat = NumberFormat.getNumberInstance(localeBR);
-        return numberFormat.format(valorAluguel);
+        veiculos = dao.listAll();
     }
 }

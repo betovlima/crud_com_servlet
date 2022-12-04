@@ -101,7 +101,7 @@
     </head>
 
     <body>
-        <h1>Dados de Veículo</h1>
+        <h1>Cadastro de Veículo</h1>
         <form name="FrmDadosVeiculo" method="post" action="inserirVeiculo" onSubmit="return validar_form()">
             <div class="box center">
                 <div> <label for="placa">Placa:</label></div> 
